@@ -1,0 +1,37 @@
+From 2b78d7db988ae5e37aa2a8ea3c7997dda6c88f1c Mon Sep 17 00:00:00 2001
+From: Jonas Rudloff <jonas.t.rudloff@gmail.com>
+Date: Sat, 27 Jan 2018 13:02:12 +0100
+Subject: [PATCH] fix autoboot script
+
+---
+ include/configs/odroid.h | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
+
+diff --git a/include/configs/odroid.h b/include/configs/odroid.h
+index 60ed013959..48da503b68 100644
+--- a/include/configs/odroid.h
++++ b/include/configs/odroid.h
+@@ -149,15 +149,11 @@
+ 		"run kernel_args;" \
+ 		"bootz ${kerneladdr} ${initrd_addr} ${fdt_addr};\0" \
+ 	"autoboot=" \
+-		"if test -e mmc 0 boot.scr; then; " \
+-			"run boot_script; " \
+-		"elif test -e mmc 0 Image.itb; then; " \
+-			"run boot_fit;" \
+-		"elif test -e mmc 0 zImage; then; " \
+-			"run boot_zimg;" \
+-		"elif test -e mmc 0 uImage; then; " \
+-			"run boot_uimg;" \
+-		"fi;\0" \
++        "if test -e mmc 1 boot.scr; then; " \
++            "setenv mmcbootdev 1; " \
++        "fi; " \
++        "run boot_script; " \
++        "run boot_zimg;\0" \
+ 	"console=" CONFIG_DEFAULT_CONSOLE "\0" \
+ 	"mmcbootdev=0\0" \
+ 	"mmcbootpart=1\0" \
+-- 
+2.11.0
+
